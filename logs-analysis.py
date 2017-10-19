@@ -19,13 +19,13 @@ def connect():
 def top3ArticlesAllTime():
 	db = connect()
 	c = db.cursor()
-	query = "select articles.title, count(log_slug) as views from articles join log_slug on articles.slug = log_slug.slug group by articles.title order by views desc limit 3;"
+	query = "select * from articles_views limit 3;"
 	c.execute(query)
 	top3 = c.fetchall()
 	db.close()
 
 	for item in top3:
-		print("{0} - {1} views".format(item[0], item[1]))
+		print("{0} - {1} views".format(item[0], item[2]))
 
 
 
@@ -35,6 +35,16 @@ def top3ArticlesAllTime():
 	# Rudolf von Treppenwitz - 1985 views
 	# Markoff Chaney - 1723 views
 	# Anonymous Contributor - 1023 views
+def mostPopularAuthors():
+	db = connect()
+	c = db.cursor()
+	query = "select authors.name, sum(articles_views.views) as total_author_views from authors join articles_views on authors.id = articles_views.author group by authors.name order by total_author_views desc"
+	c.execute(query)
+	authors = c.fetchall()
+	db.close()
+
+	for item in authors:
+		print("{0} - {1} views".format(item[0], item[1]))
 
 
 
@@ -46,6 +56,7 @@ def top3ArticlesAllTime():
 
 # Function calls section
 top3ArticlesAllTime()
+mostPopularAuthors()
 
 
 

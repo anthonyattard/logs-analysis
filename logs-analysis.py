@@ -19,11 +19,13 @@ def connect():
 def top3ArticlesAllTime():
 	db = connect()
 	c = db.cursor()
-	query = "select * from articles"
+	query = "select articles.title, count(log_slug) as views from articles join log_slug on articles.slug = log_slug.slug group by articles.title order by views desc limit 3;"
 	c.execute(query)
-	articles = c.fetchall()
+	top3 = c.fetchall()
 	db.close()
-	print articles
+
+	for item in top3:
+		print("{0} - {1} views".format(item[0], item[1]))
 
 
 
@@ -44,3 +46,6 @@ def top3ArticlesAllTime():
 
 # Function calls section
 top3ArticlesAllTime()
+
+
+

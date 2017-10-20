@@ -51,12 +51,23 @@ def mostPopularAuthors():
 # 3. On which days did more than 1% of requests lead to errors? The log table includes a column status that indicates the HTTP status code that the news site sent to the user's browser.
 	# Example:
 	# July 29, 2016 - 2.5% errors
+def highErrorDays():
+	db = connect()
+	c = db.cursor()
+	query = "select to_char(log_date, 'FMMonth DD, YYYY') as log_date_fmt, percent_errors from log_date_percent_errors where percent_errors > 1.00"
+	c.execute(query)
+	days = c.fetchall()
+	db.close()
+
+	for item in days:
+		print("{0} - {1}% errors".format(item[0], item[1]))
 
 
 
 # Function calls section
 top3ArticlesAllTime()
 mostPopularAuthors()
+highErrorDays()
 
 
 

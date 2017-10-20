@@ -1,4 +1,6 @@
-Please run the following lines in your database to create the views needed to run this program.
+Run the program from the project directory with `python logs-analysis.py`
+
+Please run the following lines in your database to create the views needed for the program to work.
 
 create view log_slug as
 select log.path, log.ip, log.method, log.status, log.time, log.id, replace(log.path, '/article/', '') as slug from log;
@@ -14,3 +16,5 @@ select log_date, count(*) as total_requests, count(*) filter (where status like 
 
 create view log_date_percent_errors as
 select log_date, round(100.00 * ( cast(total_errors as decimal)/total_requests), 2) as percent_errors from log_requests_errors;
+
+Enjoy!

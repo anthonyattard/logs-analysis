@@ -15,7 +15,8 @@ def connect():
 def top3ArticlesAllTime():
     db = connect()
     c = db.cursor()
-    query = "select * from articles_views limit 3;"
+    query = "select * from articles_views " \
+            "limit 3;"
     c.execute(query)
     top3 = c.fetchall()
     db.close()
@@ -28,7 +29,12 @@ def top3ArticlesAllTime():
 def mostPopularAuthors():
     db = connect()
     c = db.cursor()
-    query = "select authors.name, sum(articles_views.views) as total_author_views from authors join articles_views on authors.id = articles_views.author group by authors.name order by total_author_views desc"
+    query = "select authors.name, " \
+            "sum(articles_views.views) as total_author_views " \
+            "from authors join articles_views " \
+            "on authors.id = articles_views.author " \
+            "group by authors.name " \
+            "order by total_author_views desc"
     c.execute(query)
     authors = c.fetchall()
     db.close()
@@ -41,7 +47,9 @@ def mostPopularAuthors():
 def highErrorDays():
     db = connect()
     c = db.cursor()
-    query = "select to_char(log_date, 'FMMonth DD, YYYY') as log_date_fmt, percent_errors from log_date_percent_errors where percent_errors > 1.00"
+    query = "select to_char(log_date, 'FMMonth DD, YYYY') as log_date_fmt, " \
+            "percent_errors from log_date_percent_errors " \
+            "where percent_errors > 1.00"
     c.execute(query)
     days = c.fetchall()
     db.close()

@@ -7,13 +7,13 @@ import psycopg2
 
 
 # Connect to the PostgreSQL database. Returns a database connection.
-def connect():
-    return psycopg2.connect("dbname=news")
+def connect(database_name):
+    return psycopg2.connect("dbname={}".format(database_name))
 
 
 # Returns the most popular 3 articles of all time
 def top3ArticlesAllTime():
-    db = connect()
+    db = connect('news')
     c = db.cursor()
     query = "select * from articles_views " \
             "limit 3;"
@@ -27,7 +27,7 @@ def top3ArticlesAllTime():
 
 # Returns the most popular authors of all time
 def mostPopularAuthors():
-    db = connect()
+    db = connect('news')
     c = db.cursor()
     query = "select authors.name, " \
             "sum(articles_views.views) as total_author_views " \
@@ -45,7 +45,7 @@ def mostPopularAuthors():
 
 # Returns the days where more than 1% of requests were errors
 def highErrorDays():
-    db = connect()
+    db = connect('news')
     c = db.cursor()
     query = "select to_char(log_date, 'FMMonth DD, YYYY') as log_date_fmt, " \
             "percent_errors from log_date_percent_errors " \

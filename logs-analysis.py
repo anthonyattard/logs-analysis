@@ -58,7 +58,7 @@ def highErrorDays():
     for item in days:
         print("{0} - {1}% errors".format(item[0], item[1]))
 
-# Function calls section
-top3ArticlesAllTime()
-mostPopularAuthors()
-highErrorDays()
+if __name__ == '__main__':
+    top3ArticlesAllTime()
+    mostPopularAuthors()
+    highErrorDays()

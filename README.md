@@ -3,11 +3,9 @@ This project reads in data from a large database and derives insights on that da
 
 ## Instructions
 
-Download the database from (Udacity)[https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip]
+Download the database from [Udacity](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
 
-Run the program from the project directory with `python logs-analysis.py`
-
-Please run the following lines in your database to create the views needed for the code to work.
+Run the following lines in your database to create the views needed for the code to work.
 
 ```sql
 create view log_slug as
@@ -33,5 +31,7 @@ select log_date, count(*) as total_requests, count(*) filter (where status like 
 create view log_date_percent_errors as
 select log_date, round(100.00 * ( cast(total_errors as decimal)/total_requests), 2) as percent_errors from log_requests_errors;
 ```
+
+Run the program from the project directory with `python logs-analysis.py`
 
 Enjoy!

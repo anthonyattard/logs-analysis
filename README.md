@@ -1,7 +1,9 @@
-## Logs Analysis
-This project reads in data from a large database and derives insights on that data using sql.
+# Logs Analysis
+This project reads in data from a large database and derives insights on that data using SQL.
 
-#### Instructions
+## Instructions
+
+Download the database from (Udacity)[https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip]
 
 Run the program from the project directory with `python logs-analysis.py`
 

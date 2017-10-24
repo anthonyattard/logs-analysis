@@ -17,31 +17,32 @@ def connect(database_name):
         sys.exit(1)
 
 
+def execute_query(query):
+    db, c = connect('news')
+    c.execute(query)
+    results = c.fetchall()
+    db.close()
+    return results
+
+
 def top3ArticlesAllTime():
     """Returns the most popular 3 articles of all time."""
-    db, c = connect('news')
     query = "select * from articles_views " \
             "limit 3;"
-    c.execute(query)
-    top3 = c.fetchall()
-    db.close()
-
+    top3 = execute_query(query)
     for item in top3:
         print("{0} - {1} views".format(item[0], item[2]))
 
 
 def mostPopularAuthors():
     """Returns the most popular authors of all time."""
-    db, c = connect('news')
     query = "select authors.name, " \
             "sum(articles_views.views) as total_author_views " \
             "from authors join articles_views " \
             "on authors.id = articles_views.author " \
             "group by authors.name " \
             "order by total_author_views desc"
-    c.execute(query)
-    authors = c.fetchall()
-    db.close()
+    authors = execute_query(query)
 
     for item in authors:
         print("{0} - {1} views".format(item[0], item[1]))
@@ -49,13 +50,10 @@ def mostPopularAuthors():
 
 def highErrorDays():
     """Returns the days where more than 1% of requests were errors."""
-    db, c = connect('news')
     query = "select to_char(log_date, 'FMMonth DD, YYYY') as log_date_fmt, " \
             "percent_errors from log_date_percent_errors " \
             "where percent_errors > 1.00"
-    c.execute(query)
-    days = c.fetchall()
-    db.close()
+    days = execute_query(query)
 
     for item in days:
         print("{0} - {1}% errors".format(item[0], item[1]))
